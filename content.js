@@ -40,13 +40,19 @@
       await new Promise(resolve => setTimeout(resolve, 200));
     }
 
-    // Step 5: Click all 'make invisible' buttons except the first
+    // Step 5: Click all 'make invisible' buttons except for 'Single Chair'
+    const items = document.querySelectorAll('div.font-medium.flex.items-center.gap-2.overflow-hidden.p-1');
     const invisibleButtons = document.querySelectorAll('img[alt="make invisible button"][src="/icons/eye.png"]');
     if (invisibleButtons.length > 1) {
-      for (let i = 1; i < invisibleButtons.length; i++) {
-        invisibleButtons[i].closest('button').click();
-        console.log('Clicked make invisible button (index ' + i + ')');
-        await new Promise(resolve => setTimeout(resolve, 200));
+      for (let i = 0; i < items.length; i++) {
+        const itemName = items[i].textContent.trim();
+        if (itemName !== 'Single Chair') {
+          invisibleButtons[i].closest('button').click();
+          console.log(`Clicked make invisible button for ${itemName} (index ${i})`);
+          await new Promise(resolve => setTimeout(resolve, 200));
+        } else {
+          console.log(`Skipped make invisible button for Single Chair (index ${i})`);
+        }
       }
     } else {
       console.log('Fewer than two make invisible buttons found, skipping');
