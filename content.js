@@ -79,7 +79,7 @@
     console.log('Clicked Preview button');
 
     // Step 9: Wait for modal to appear, modify the Open in New Tab link, and click it
-    await new Promise(resolve => setTimeout(resolve, 2000)); // Wait 2 seconds for modal stability
+    await new Promise(resolve => setTimeout(resolve, 6000)); // Wait 2 seconds for modal stability
     const modal = document.querySelector('div.react-responsive-modal-modal');
     if (!modal) throw new Error('Modal not found');
     const openInNewTabLink = document.querySelector('a.px-2.py-1.shadow.cursor-pointer.hover\\:bg-gray-200.duration-150[target="_blank"][rel="noopener noreferrer"]');
