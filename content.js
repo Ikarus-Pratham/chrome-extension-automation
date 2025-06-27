@@ -71,6 +71,25 @@
     saveButton.click();
     console.log('Clicked Save button');
 
+    // Step 8: Wait for save operation and click Preview button
+    await new Promise(resolve => setTimeout(resolve, 2000)); // Wait 2 seconds for save to complete
+    const previewButton = document.querySelector('button.px-4.rounded-lg.py-2.flex.items-center.gap-2.text-white.bg-orange-600');
+    if (!previewButton) throw new Error('Preview button not found');
+    previewButton.click();
+    console.log('Clicked Preview button');
+
+    // Step 9: Wait for modal to appear, modify the Open in New Tab link, and click it
+    await new Promise(resolve => setTimeout(resolve, 2000)); // Wait 2 seconds for modal stability
+    const modal = document.querySelector('div.react-responsive-modal-modal');
+    if (!modal) throw new Error('Modal not found');
+    const openInNewTabLink = document.querySelector('a.px-2.py-1.shadow.cursor-pointer.hover\\:bg-gray-200.duration-150[target="_blank"][rel="noopener noreferrer"]');
+    if (!openInNewTabLink) throw new Error('Open in New Tab link not found');
+    // Modify the href to replace /product with /dvc
+    openInNewTabLink.href = openInNewTabLink.href.replace('/product', '/dvc');
+    console.log(`Modified link href to: ${openInNewTabLink.href}`);
+    openInNewTabLink.click();
+    console.log('Clicked Open in New Tab link');
+
     console.log('Automation completed successfully');
   } catch (error) {
     console.error('Automation failed:', error.message);
