@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ikarus Delta Automation</title>
+  <style>
+    body {
+      width: 200px;
+      padding: 10px;
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+    button {
+      padding: 8px 16px;
+      margin: 5px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    #enableBtn {
+      background-color: #4CAF50;
+      color: white;
+    }
+    #disableBtn {
+      background-color: #f44336;
+      color: white;
+    }
+    #runBtn {
+      background-color: #2196F3;
+      color: white;
+    }
+    button:hover {
+      opacity: 0.8;
+    }
+    #status {
+      margin-top: 10px;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <h3>Ikarus Delta Automation</h3>
+  <button id="enableBtn">Enable</button>
+  <button id="disableBtn">Disable</button>
+  <button id="runBtn">Run Now</button>
+  <div id="status"></div>
+  <script>
+    // Load current state
+    chrome.storage.local.get(['enabled'], (result) => {
+      const status = document.getElementById('status');
+      status.textContent = result.enabled !== false ? 'Status: Enabled' : 'Status: Disabled';
+    });
+
+    // Enable button
+    document.getElementById('enableBtn').addEventListener('click', () => {
+      chrome.storage.local.set({ enabled: true }, () => {
+        document.getElementById('status').textContent = 'Status: Enabled';
+        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+          chrome.tabs.sendMessage(tabs[0].id, { action: 'runAutomation' });
+        });
+      });
+    });
+
+    // Disable button
+    document.getElementById('disableBtn').addEventListener('click', () => {
+      chrome.storage.local.set({ enabled: false }, () => {
+        document.getElementById('status').textContent = 'Status: Disabled';
+      });
+    });
+
+    // Run Now button
+    document.getElementById('runBtn').addEventListener('click', () => {
+      chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+        chrome.tabs.sendMessage(tabs[0].id, { action: 'runAutomation' }, (response) => {
+          document.getElementById('status').textContent = response ? response.status : 'Error running automation';
+        });
+      });
+    });
+  </script>
+</body>
+</html>
