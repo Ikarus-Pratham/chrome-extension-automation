@@ -21,32 +21,22 @@
       await new Promise(resolve => setTimeout(resolve, 200));
     }
 
-    // Step 4: Select matching options in dropdowns for specific models
-    const targetModels = ['Sofa', 'chair_low', 'Single_Chiar'];
+    // Step 4: Select matching options in dropdowns
     const selectElements = document.querySelectorAll('select.text-orange-600.styled-scrollbar');
     if (selectElements.length === 0) throw new Error('No dropdowns found');
     for (const select of selectElements) {
-      const modelNameElement = select.closest('div.my-2.flex.flex-col.gap-2')
-        ?.querySelector('div.font-medium.text-sm');
-      if (!modelNameElement) continue;
-      const modelName = modelNameElement.textContent.trim();
-      console.log(modelName)
-      if (!targetModels.includes(modelName)) {
-        console.log(`Skipping dropdown for model: ${modelName}`);
-        continue;
-      }
       const options = select.querySelectorAll('option');
       let found = false;
       for (const option of options) {
         if (option.textContent.includes(name)) {
           select.value = option.value;
           select.dispatchEvent(new Event('change', { bubbles: true }));
-          console.log(`Selected ${name} in dropdown for model ${modelName}`);
+          console.log(`Selected ${name} in dropdown`);
           found = true;
           break;
         }
       }
-      if (!found) console.warn(`No matching option for ${name} in dropdown for model ${modelName}`);
+      if (!found) console.warn(`No matching option for ${name} in dropdown`);
       await new Promise(resolve => setTimeout(resolve, 200));
     }
 
