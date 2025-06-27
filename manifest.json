@@ -2,16 +2,13 @@
   "manifest_version": 3,
   "name": "Ikarus Delta Automation",
   "version": "1.0",
-  "description": "Automates operations on the Ikarus Delta App page",
+  "description": "Automates operations on Ikarus Delta App",
   "permissions": [
     "activeTab",
-    "storage"
+    "scripting"
   ],
-  "content_scripts": [
-    {
-      "matches": ["https://app.ikarusdelta.com/*"],
-      "js": ["content.js"]
-    }
+  "host_permissions": [
+    "https://app.ikarusdelta.com/*"
   ],
   "action": {
     "default_popup": "popup.html"
